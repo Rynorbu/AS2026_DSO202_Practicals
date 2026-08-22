@@ -281,3 +281,25 @@ Then I have demonstrated the most common Service fault: a selector that matches 
 ![alt text](../assets/10.2.8.png)
 
 An empty EndpointSlice is the diagnostic signature of a selector mismatch. So, I removed it.
+
+## Analysis
+
+The practical showed how a Kubernetes cluster is organized and managed using kind. It shows the structure of the cluster and how different components interact with each other.
+
+The control plane manages the cluster, while worker nodes run applications. In kind, these nodes run as Docker containers on the same computer, making it useful for learning and testing but less suitable for production.
+
+The practical also demonstrated the difference between **imperative and declarative management**. Imperative commands such as `kubectl scale` make immediate changes, while YAML manifests define the desired state. We need to apply the manifest again to ensure that the desired state is maintained, as applying the manifest again can overwrite manual changes, which is why manifests are important for GitOps and consistent cluster management.
+
+**ResourceQuota** limits the total CPU and memory used by a namespace, while **LimitRange** provides default resource values for individual containers. Together, they help control resource usage.
+
+The **Deployment, ReplicaSet, and Pod** relationship demonstrated Kubernetes self-healing. When a pod was deleted, the ReplicaSet automatically created a replacement to maintain the desired number of replicas.
+
+Finally, the practical showed why **Services** are needed. Pod IP addresses can change, so Services provide stable access to applications. Readiness probes ensure that only pods ready to handle traffic receive requests, even if the pods are still running.
+
+## Reflection
+
+Before doing this practical, I only know that the kubernetes has the ability to rollout and rollback the deployment. But after doing this practical. I knew that there are ways of doing it by using the maxUnavailable and maxSurge. The maxUnavailable is the maximum number of pods that can be unavailable during the update, while the maxSurge is the maximum number of pods that can be created above the desired number of pods during the update. 
+
+The stage that I found most challenging was Stage 5, especially understanding why Kubernetes keeps the old ReplicaSet after a rolling update. But doing this practical helped me understand that the old ReplicaSet is kept for rollback purposes.
+
+Doing this practical gave me the solid foundation of kubernetes and I still want to understand more about how the `kube-proxy` routes the traffic from a Service to the correct pods. I understand that the `kube-proxy` is optional in the worker note but it has it's own functionality. 
